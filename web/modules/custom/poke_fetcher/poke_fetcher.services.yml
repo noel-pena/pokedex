@@ -1,0 +1,4 @@
+services:
+  poke_fetcher.pokedex_service:
+    class: Drupal\poke_fetcher\Service\PokedexService
+    arguments: ['@http_client', '@logger.factory']

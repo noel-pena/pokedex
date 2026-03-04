@@ -1,0 +1,7 @@
+poke_fetcher.pokedex:
+  path: /pokedex
+  defaults:
+    _controller: \Drupal\poke_fetcher\Controller\PokedexController::content
+    _title: 'Pokedex'
+  requirements:
+    _permission: 'access content'

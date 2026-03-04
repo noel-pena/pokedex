@@ -1,0 +1,23 @@
+<?php
+
+/**
+ * @file
+ * Primary module file for the Pokedex module.
+ */
+
+/**
+ * Implements hook_theme().
+ */
+function poke_fetcher_theme($existing, $type, $theme, $path) {
+  return [
+    'pokedex_card' => [
+      'variables' => [
+          'name' => NULL,
+          'id' => NULL,
+          'image_url' => NULL,
+          'types' => [],
+          'admin_name' => NULL,
+      ],
+    ],
+  ];
+}

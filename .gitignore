@@ -1,0 +1,28 @@
+# Ignore configuration files with sensitive info (DB credentials)
+/web/sites/*/settings*.php
+/web/sites/*/services*.yml
+
+# Ignore user-generated content (images, CSS/JS aggregates)
+/web/sites/*/files
+/web/sites/*/private
+
+# Ignore dependencies managed by Composer
+/vendor
+/web/core
+/web/modules/contrib
+/web/themes/contrib
+/web/profiles/contrib
+/web/libraries
+
+# Ignore temporary and development files
+/web/sites/*/tmp
+/web/sites/*/cache
+.env
+*.sql
+*.tar.gz
+
+# IDE and OS-specific files
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
