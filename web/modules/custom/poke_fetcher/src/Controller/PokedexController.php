@@ -14,7 +14,7 @@ class PokedexController extends ControllerBase {
 
     public function __construct(PokedexService $pokedex_service, Connection $database) {
         $this->pokedexService = $pokedex_service;
-
+        $this->database = $database;
     }
 
     public static function create(ContainerInterface $container) {
@@ -25,12 +25,12 @@ class PokedexController extends ControllerBase {
     }   
 
     public function content() {
-        $pokemon_name = 'pikachu';
+        $pokemon_name = 'charizard';
         $pokemon_data = $this->pokedexService->getPokemon($pokemon_name);
 
         if (!$pokemon_data) {
             return [
-                '#markup' => $this ->t('Oh no! Could not fetch data for @name.', ['@name' => ucfirst($pokemon_name)]),
+                '#markup' => $this ->t('Oh no! Could not fetch data for "@name".', ['@name' => ucfirst($pokemon_name)]),
             ];
         }
 

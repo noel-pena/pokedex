@@ -1,0 +1,27 @@
+{{ attach_library('poke_fetcher/card_style') }}
+
+<div class="pokedex-card-wrapper">
+  <h2>{{ name }} (#{{ id }})</h2>
+  {% if image_url %}
+    <img 
+      src="{{ image_url }}" 
+      alt="{{ name }} image" 
+      class="pokedex-card-image"
+    />
+  {% endif %}
+  <div class="pokedex-types">
+    <h3>Type:</h3>
+    <ul>
+      {% for type in types %}
+        <li>{{ type }}</li>
+      {% endfor %}
+    </ul>
+  </div>
+  <hr />
+  <p>
+    <small>
+      Pokedex maintained by Local Admin:
+    </small>
+    <strong>{{ admin_name }}</strong>
+  </p>
+</div>
