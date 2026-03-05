@@ -14,22 +14,24 @@ class PokedexSearchForm extends FormBase {
   protected $database;
 
   public function __construct(PokedexService $pokedex_service, Connection $database) {
-      $this->pokedexService = $pokedex_service;
-      $this->database = $database;
+    $this->pokedexService = $pokedex_service;
+    $this->database = $database;
   }
 
   public static function create(ContainerInterface $container) {
-      return new static(
-          $container->get('poke_fetcher.pokedex_service'),
-          $container->get('database'),
-      );  
-  }   
+    return new static(
+      $container->get('poke_fetcher.pokedex_service'),
+      $container->get('database'),
+    );
+  }
 
   public function getFormId() {
-      return 'pokedex_search_form';
+    return 'pokedex_search_form';
   }
-  
+
   public function buildForm(array $form, FormStateInterface $form_state) {
+    $form['#attached']['library'][] = 'poke_fetcher/card_style';
+
     $form['pokemon_name'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Pokemon Name'),
@@ -41,48 +43,71 @@ class PokedexSearchForm extends FormBase {
       '#type' => 'submit',
       '#value' => $this->t('Search'),
       '#button_type' => 'primary',
+      '#ajax' => [
+        'callback' => '::ajaxUpdateCallback',
+        'wrapper' => 'pokedex-result-wrapper',
+        'progress' => [
+          'type' => 'throbber',
+          'message' => $this->t('Throwing Pokeball...'),
+        ],
+      ],
     ];
 
-    // Display results if available
-    $pokedex_data = $form_state->get('pokedex_data');
-    if ($pokedex_data) {
-      $form['result'] = $pokedex_data;
+    $form['result'] = [
+      '#type' => 'container',
+      '#prefix' => '<div id="pokedex-result-wrapper">',
+      '#suffix' => '</div>',
+    ];
+
+    $pokemon_data = $form_state->get('pokemon_data');
+    if ($pokemon_data) {
+      $form['result']['card'] = $pokemon_data;
     }
 
     return $form;
   }
 
-  public function submitForm(array &$form, FormStateInterface $form_state) {
-    $searchTerm = $form_state->getValue('pokemon_name');
-    $pokedex_data = $this->pokedexService->getPokemon($searchTerm);
+  public function ajaxUpdateCallback(array &$form, FormStateInterface $form_state) {
+    return $form['result'];
+  }
 
-    if ($pokedex_data) {
-      $adminName = $this->database->select('users_field_data', 'u')
+  public function submitForm(array &$form, FormStateInterface $form_state) {
+    $search_term = $form_state->getValue('pokemon_name');
+    $data = $this->pokedexService->getPokemon($search_term);
+
+    if ($data) {
+      $admin_name = $this->database->select('users_field_data', 'u')
         ->fields('u', ['name'])
         ->condition('u.uid', 1)
         ->execute()
         ->fetchField();
 
       $types = [];
-      foreach ($pokedex_data['types'] as $type_info) {
+      foreach ($data['types'] as $type_info) {
         $types[] = $type_info['type']['name'];
       }
 
-      $renderArray = [
+      $render_array = [
         '#theme' => 'pokedex_card',
-        '#name' => ucfirst($pokedex_data['name']),
-        '#id' => $pokedex_data['id'],
-        '#image_url' => $pokedex_data['sprites']['front_default'],
+        '#name' => ucfirst($data['name']),
+        '#id' => $data['id'],
+        '#image_url' => $data['sprites']['front_default'] ?? '',
         '#types' => $types,
-        '#admin_name' => $adminName,
+        '#admin_name' => $admin_name,
       ];
 
-      $form_state->set('pokedex_data', $renderArray);
+      $form_state->set('pokemon_data', $render_array);
     } else {
-      \Drupal::messenger()->addError($this->t('No data found for "@name". Please try another Pokemon.', ['@name' => $searchTerm]));
+      $form_state->set('pokemon_data', [
+        '#type' => 'html_tag',
+        '#tag' => 'div',
+        '#value' => $this->t('Oh no! Could not find a Pokemon named "@name".', ['@name' => $search_term]),
+        '#attributes' => [
+          'style' => 'color: red; font-weight: bold; margin-top: 20px;',
+        ],
+      ]);
     }
 
-    // Rebuild the form
     $form_state->setRebuild(TRUE);
   }
 }
