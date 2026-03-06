@@ -1,0 +1,6 @@
+services:
+  poke_fetcher.commands:
+    class: \Drupal\poke_fetcher\Commands\PokeSyncCommands
+    arguments: ['@poke_fetcher.pokedex_service', '@entity_type.manager']
+    tags:
+      - { name: drush.command }

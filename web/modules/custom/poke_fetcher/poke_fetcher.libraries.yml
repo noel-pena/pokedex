@@ -3,3 +3,9 @@ card_style:
   css:
     theme:
       css/pokedex.css: {}
+
+list_style:
+  version: 1.0
+  css:
+    theme:
+      css/pokedex-list.css: {}

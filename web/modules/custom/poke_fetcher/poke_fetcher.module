@@ -21,3 +21,12 @@ function poke_fetcher_theme($existing, $type, $theme, $path) {
     ],
   ];
 }
+
+/**
+ * Implements hook_preprocess_views_view().
+ */
+function poke_fetcher_preprocess_views_view(array &$variables) {
+  if ($variables['view']->id() === 'pokedex_roster') {
+    $variables['#attached']['library'][] = 'poke_fetcher/list_style';
+  }
+}

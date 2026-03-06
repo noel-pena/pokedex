@@ -1,6 +1,6 @@
 # Ignore configuration files with sensitive info (DB credentials)
-/web/sites/*/settings*.php
-/web/sites/*/services*.yml
+/web/sites/*/files/*
+/web/sites/*/private
 
 # Ignore user-generated content (images, CSS/JS aggregates)
 /web/sites/*/files
@@ -20,6 +20,7 @@
 .env
 *.sql
 *.tar.gz
+!starter-db.sql.gz
 
 # IDE and OS-specific files
 .idea/

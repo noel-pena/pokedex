@@ -1,0 +1,47 @@
+.pokedex-table-wrapper table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  margin-left: 20px;
+  background-color: white;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.pokedex-table-wrapper th {
+  background-color: #ef5350;
+  color: white;
+  padding: 15px;
+  text-align: left;
+  text-transform: uppercase;
+}
+
+.pokedex-table-wrapper th a {
+  color: white;
+  text-decoration: none;
+}
+
+.pokedex-table-wrapper th a:hover {
+  text-decoration: underline;
+}
+
+.pokedex-table-wrapper th:first-child,
+.pokedex-table-wrapper td:first-child {
+  padding-left: 30px; 
+}
+
+.pokedex-table-wrapper td {
+  padding: 12px 15px;
+  border-bottom: 1px solid #eee;
+  color: #333;
+}
+
+.pokedex-table-wrapper tbody tr:nth-child(even) {
+  background-color: #fafafa;
+}
+
+.pokedex-table-wrapper tbody tr:hover {
+  background-color: #ffebee;
+  transition: background-color 0.3s ease;
+}

@@ -1,0 +1,38 @@
+uuid: aba020dd-5618-4a38-8e90-10b29468ccea
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.pokemon.field_pokedex_id
+    - field.field.node.pokemon.field_pokemon_types
+    - node.type.pokemon
+  module:
+    - user
+id: node.pokemon.default
+targetEntityType: node
+bundle: pokemon
+mode: default
+content:
+  field_pokedex_id:
+    type: number_integer
+    label: above
+    settings:
+      thousand_separator: ''
+      prefix_suffix: true
+    third_party_settings: {  }
+    weight: 101
+    region: content
+  field_pokemon_types:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 102
+    region: content
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 100
+    region: content
+hidden: {  }
