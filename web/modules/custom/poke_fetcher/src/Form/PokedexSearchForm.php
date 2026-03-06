@@ -64,6 +64,13 @@ class PokedexSearchForm extends FormBase {
       $form['result']['card'] = $pokemon_data;
     }
 
+    $form['pokedex_roster_view'] = [
+      '#type' => 'view',
+      '#name' => 'pokedex_roster',
+      '#display_id' => 'page_1',
+      '#weight' => 100,
+    ];
+
     return $form;
   }
 

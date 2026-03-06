@@ -35,7 +35,7 @@ class PokeSyncCommands extends DrushCommands {
     $node_storage = $this->entityTypeManager->getStorage('node');
     $term_storage = $this->entityTypeManager->getStorage('taxonomy_term');
 
-    foreach ($starters as $name) {
+    for ($name = 1; $name <= 50; $name++) {
       $this->output()->write("Fetching " . ucfirst($name) . "... ");
       
       $data = $this->pokedexService->getPokemon($name);
